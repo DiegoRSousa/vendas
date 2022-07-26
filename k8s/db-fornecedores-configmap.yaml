@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: db-fornecedores-configmap
+data:
+  POSTGRES_PASSWORD: postgres
+  POSTGRES_DB: db-fornecedores
