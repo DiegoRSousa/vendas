@@ -1,12 +1,14 @@
 package com.diego.fornecedores.controller;
 
+import com.diego.fornecedores.dto.FornecedorRequest;
 import com.diego.fornecedores.dto.FornecedorResponse;
+import com.diego.fornecedores.model.Fornecedor;
 import com.diego.fornecedores.repository.FornecedorRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -22,10 +24,19 @@ public class FornecedorController {
     @GetMapping
     public ResponseEntity<List<FornecedorResponse>> listar(){
 
-        var fornecedores = fornecedorRepository.findAll().stream().map(f ->
+        List<FornecedorResponse> fornecedores = fornecedorRepository.findAll().stream().map(f ->
             new FornecedorResponse(f.getId(), f.getNome(), f.getCnpj(), f.getCriadoEm())
         ).toList();
 
         return ResponseEntity.ok(fornecedores);
     }
+
+    @PostMapping
+    public ResponseEntity<FornecedorResponse> salvar(@RequestBody @Valid FornecedorRequest request) {
+
+        Fornecedor fornecedor = request.toModel();
+        fornecedorRepository.save(fornecedor);
+        return ResponseEntity.status(HttpStatus.CREATED).body(FornecedorResponse.toResponse(fornecedor));
+    }
+
 }

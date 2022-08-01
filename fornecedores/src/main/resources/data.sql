@@ -1,5 +1,12 @@
-delete from fornecedores;
+drop table if exists fornecedores;
 
-insert into fornecedores (id, nome, cnpj, criado_em) values
-(1, 'Coca Cola', '73.781.975/0001-78', current_timestamp),
-(2, 'Monster', '73.781.975/0001-78', current_timestamp);
+create table fornecedores (
+ id serial primary key,
+ nome varchar(20) not null,
+ cnpj varchar(18) not null,
+ criado_em timestamp not null
+);
+
+insert into fornecedores (nome, cnpj, criado_em) values
+('Coca Cola', '73.781.975/0001-78', current_timestamp),
+('Monster', '73.781.975/0001-78', current_timestamp);
